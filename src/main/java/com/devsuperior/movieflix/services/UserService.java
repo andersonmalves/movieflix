@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -18,8 +19,12 @@ public class UserService implements UserDetailsService {
   @Autowired
   private AuthService authService;
 
-  public UserDTO getLoggedUser() {
+  @Transactional(readOnly = true)
+  public UserDTO getLoggedUser(Long id) {
+    authService.validateSelf(id);
+
     User user = authService.authenticated();
+
     return UserDTO.builder()
         .id(user.getId())
         .name(user.getName())
@@ -30,11 +35,9 @@ public class UserService implements UserDetailsService {
   @Override
   public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
     User user = userRepository.findByEmail(s);
-
     if (user == null) {
       throw new UsernameNotFoundException("Email not found");
     }
-
     return user;
   }
 }

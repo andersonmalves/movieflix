@@ -25,4 +25,11 @@ public class AuthService {
       throw new RuntimeException("Invalid");
     }
   }
+
+  public void validateSelf(Long userId) {
+    User user = authenticated();
+    if (!user.getId().equals(userId)) {
+      throw new RuntimeException("Access denied");
+    }
+  }
 }
