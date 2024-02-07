@@ -17,6 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.devsuperior.movieflix.tests.TokenUtil;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
@@ -41,7 +44,7 @@ public class UserControllerIT {
 		memberUsername = "ana@gmail.com";
 		memberPassword = "123456";
 	}
-	
+
 	@Test
 	public void getProfileShouldReturnSelfWhenVisitorLogged() throws Exception {
 		
@@ -51,7 +54,7 @@ public class UserControllerIT {
 				mockMvc.perform(get("/users/profile")
 					.header("Authorization", "Bearer " + accessToken)
 					.accept(MediaType.APPLICATION_JSON));
-		
+
 		result.andExpect(status().isOk());
 		result.andExpect(jsonPath("$.id").isNotEmpty());
 		result.andExpect(jsonPath("$.name").isNotEmpty());
