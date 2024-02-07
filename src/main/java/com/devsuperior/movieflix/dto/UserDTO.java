@@ -1,7 +1,5 @@
 package com.devsuperior.movieflix.dto;
 
-import com.devsuperior.movieflix.entities.User;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

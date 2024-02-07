@@ -1,6 +1,7 @@
 package com.devsuperior.movieflix.services;
 
 import com.devsuperior.movieflix.dto.UserDTO;
+import com.devsuperior.movieflix.dto.mapper.UserMapper;
 import com.devsuperior.movieflix.entities.User;
 import com.devsuperior.movieflix.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +22,7 @@ public class UserService implements UserDetailsService {
 
   @Transactional(readOnly = true)
   public UserDTO getProfile(){
-    User user = authService.authenticated();
-
-    return UserDTO.builder()
-        .id(user.getId())
-        .email(user.getEmail())
-        .name(user.getName())
-        .build();
+    return UserMapper.toDTO(authService.authenticated());
   }
 
   @Override
