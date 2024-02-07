@@ -2,6 +2,7 @@ package com.devsuperior.movieflix.entities;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,7 +20,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "tb_movie")
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Data
 public class Movie {
 
@@ -35,6 +35,7 @@ public class Movie {
 
   private String imgUrl;
 
+  @Column(columnDefinition = "TEXT")
   private String synopsis;
 
   @ManyToOne

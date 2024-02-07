@@ -20,24 +20,24 @@ public class UserService implements UserDetailsService {
   private AuthService authService;
 
   @Transactional(readOnly = true)
-  public UserDTO getLoggedUser(Long id) {
-    authService.validateSelf(id);
-
+  public UserDTO getProfile(){
     User user = authService.authenticated();
 
     return UserDTO.builder()
         .id(user.getId())
-        .name(user.getName())
         .email(user.getEmail())
+        .name(user.getName())
         .build();
   }
 
   @Override
-  public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-    User user = userRepository.findByEmail(s);
+  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    User user = userRepository.findByEmail(username);
+
     if (user == null) {
       throw new UsernameNotFoundException("Email not found");
     }
+
     return user;
   }
 }

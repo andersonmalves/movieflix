@@ -7,22 +7,20 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.Instant;
 import javax.servlet.http.HttpServletRequest;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
-@Data
-public class ResourceExceptionHandler {
+@ControllerAdvice
+public class ControllerExceptionHandler {
   @ExceptionHandler(ResourceNotFoundException.class)
   public ResponseEntity<StandardError> resourceNotFoundException(
       ResourceNotFoundException e, HttpServletRequest request
   ) {
-    var error = new StandardError();
-    var status = HttpStatus.NOT_FOUND;
+    StandardError error = new StandardError();
+    HttpStatus status = HttpStatus.NOT_FOUND;
 
     error.setTimestamp(Instant.now());
     error.setStatus(status.value());
@@ -37,8 +35,8 @@ public class ResourceExceptionHandler {
   public ResponseEntity<StandardError> dataIntegrityViolationException(
       DataIntegrityViolationException e, HttpServletRequest request
   ) {
-    var error = new StandardError();
-    var status = HttpStatus.BAD_REQUEST;
+    StandardError error = new StandardError();
+    HttpStatus status = HttpStatus.BAD_REQUEST;
 
     error.setTimestamp(Instant.now());
     error.setStatus(status.value());
@@ -53,8 +51,8 @@ public class ResourceExceptionHandler {
   public ResponseEntity<StandardError> methodArgumentNotValidException(
       MethodArgumentNotValidException e, HttpServletRequest request
   ) {
-    var error = new StandardError();
-    var status = HttpStatus.UNPROCESSABLE_ENTITY;
+    StandardError error = new StandardError();
+    HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
 
     error.setTimestamp(Instant.now());
     error.setStatus(status.value());
@@ -69,8 +67,8 @@ public class ResourceExceptionHandler {
   public ResponseEntity<OAuthCustomError> forbiddenException(
       ForbiddenException e, HttpServletRequest request
   ) {
-    var status = HttpStatus.FORBIDDEN;
-    var error = new OAuthCustomError();
+    HttpStatus status = HttpStatus.FORBIDDEN;
+    OAuthCustomError error = new OAuthCustomError();
 
     error.setError("Forbidden");
     error.setErrorDescription(e.getMessage());
@@ -82,8 +80,8 @@ public class ResourceExceptionHandler {
   public ResponseEntity<OAuthCustomError> unauthorizedException(
       UnauthorizedException e, HttpServletRequest request
   ) {
-    var status = HttpStatus.UNAUTHORIZED;
-    var error = new OAuthCustomError();
+    HttpStatus status = HttpStatus.UNAUTHORIZED;
+    OAuthCustomError error = new OAuthCustomError();
 
     error.setError("Unauthorized");
     error.setErrorDescription(e.getMessage());

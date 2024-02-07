@@ -17,7 +17,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "tb_genre")
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Data
 public class Genre {
 

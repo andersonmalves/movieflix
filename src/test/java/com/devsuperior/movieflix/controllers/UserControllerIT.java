@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.devsuperior.movieflix.tests.TokenUtil;
 
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

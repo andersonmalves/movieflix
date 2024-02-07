@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 @RequestMapping(value = "/users")
 public class UserController {
@@ -21,10 +24,16 @@ public class UserController {
   private AuthService authService;
 
   @GetMapping(value = "/profile")
-  public ResponseEntity<UserDTO> getLoggedUser() {
-    User authenticatedUser = authService.authenticated();
-    UserDTO userDto = userService.getLoggedUser(authenticatedUser.getId());
-
-    return ResponseEntity.ok().body(userDto);
+  public ResponseEntity<UserDTO> getProfile() {
+    var user = authService.authenticated();
+    log.info("User: {}", user.getName());
+    UserDTO userDTO = UserDTO.builder().id(user.getId()).name(user.getName()).email(user.getEmail()).build();
+    return ResponseEntity.ok().body(userDTO);
   }
+
+  @GetMapping("/test")
+  public User getUser() {
+    return authService.authenticated();
+  }
+
 }
